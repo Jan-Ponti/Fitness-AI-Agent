@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="/static/image/logo.png">
+    <meta charset="UTF-8" />
+    <title>Fitness & Diet Planner Chatbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img src="/static/image/logo.png" alt="Nutri Chat AI Logo" class="logo" />
+        <div class="dot"></div>
+        <span>Nutri Chat AI - Fitness & Diet Planner</span>
+      </div>
+      <div class="actions">
+        <button id="editProfileBtn" class="btn ghost">Edit Profile</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="chat" id="chat">
+        <!-- Messages will be injected here -->
+      </section>
+
+      <footer class="composer">
+        <div class="input-wrap">
+          <input id="chatInput" type="text" placeholder="Ask anything… Try: 'Give me a keto meal plan' or just say hi" />
+          <button id="sendBtn" class="btn primary">Send</button>
+        </div>
+        <div class="suggestions">
+          <button class="chip" data-intent="diet">Diet plan</button>
+          <button class="chip" data-intent="workout">Workout plan</button>
+          <button class="chip" data-intent="shopping">Shopping list</button>
+          <button class="chip" data-intent="variation">Next variation</button>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Profile Modal -->
+  <div id="profileModal" class="modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Your Fitness Profile</h3>
+        <button id="closeModal" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <form id="profileForm" class="grid">
+        <label>Age
+          <input type="number" name="age" min="10" max="100" required />
+        </label>
+        <label>Gender
+          <select name="gender" required>
+            <option value="">Select…</option>
+            <option>male</option>
+            <option>female</option>
+            <option>other</option>
+          </select>
+        </label>
+        <label>Weight (kg)
+          <input type="number" name="weight" step="0.1" required />
+        </label>
+        <label>Height (cm)
+          <input type="number" name="height" step="0.1" required />
+        </label>
+        <label>Activity Level
+          <select name="activity" required>
+            <option value="">Select…</option>
+            <option value="sedentary">sedentary</option>
+            <option value="light">light</option>
+            <option value="moderate">moderate</option>
+            <option value="active">active</option>
+            <option value="very_active">very_active</option>
+          </select>
+        </label>
+        <label>Goal
+          <select name="goal" required>
+            <option value="">Select…</option>
+            <option>lose</option>
+            <option>maintain</option>
+            <option>gain</option>
+          </select>
+        </label>
+        <label>Diet Preference
+          <select name="diet" required>
+            <option value="">Select…</option>
+            <option>vegetarian</option>
+            <option>vegan</option>
+            <option>non-veg</option>
+            <option>keto</option>
+          </select>
+        </label>
+        <label>Allergies (comma-separated)
+          <input type="text" name="allergies" placeholder="peanuts, dairy, ..." />
+        </label>
+        <div class="row span2">
+          <button type="submit" class="btn primary" style="width:100%;">Save Profile</button>
+        </div>
+      </form>
+      <p class="muted" style="margin-top:8px;">You can change this anytime via “Edit Profile”.</p>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
