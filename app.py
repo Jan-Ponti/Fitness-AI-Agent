@@ -43,6 +43,7 @@ def build_system_preamble(profile: Dict[str, Any]) -> str:
     weight = profile.get("weight", "")
     goal = profile.get("goal", "")
     diet = profile.get("diet", "")
+    cuisine = profile.get("cuisine", "")
     activity = profile.get("activity", "")
     allergies = profile.get("allergies", "")
 
@@ -56,6 +57,7 @@ def build_system_preamble(profile: Dict[str, Any]) -> str:
         f"- Weight: {weight} kg\n"
         f"- Goal: {goal}\n"
         f"- Diet Preference: {diet}\n"
+        f"- Cuisine: {cuisine or 'none'}\n"
         f"- Activity Level: {activity}\n"
         f"- Allergies: {allergies or 'none'}\n"
     )
