@@ -20,7 +20,7 @@ if not API_KEY:
 genai.configure(api_key=API_KEY)
 
 # Choose a fast, capable model. You can switch to "gemini-1.5-pro" later.
-MODEL_NAME = "gemini-2.0-flash"
+MODEL_NAME = "gemini-3-flash"
 model = genai.GenerativeModel(MODEL_NAME)
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
@@ -46,18 +46,30 @@ def build_system_preamble(profile: Dict[str, Any]) -> str:
     activity = profile.get("activity", "")
     allergies = profile.get("allergies", "")
 
+    # NEW: Grab health concerns from the profile
+    health_concerns = profile.get("health_concerns", "")
+
+    
+
     return (
         "You are a friendly, factual fitness & diet assistant. "
         "Personalize suggestions using this user profile when relevant.\n\n"
         f"User Profile:\n"
         f"- Age: {age}\n"
         f"- Gender: {gender}\n"
-        f"- Height: {height} cm\n"
-        f"- Weight: {weight} kg\n"
+        f"- Height: {height} inches\n"
+        f"- Weight: {weight} lbs\n"
         f"- Goal: {goal}\n"
         f"- Diet Preference: {diet}\n"
         f"- Activity Level: {activity}\n"
         f"- Allergies: {allergies or 'none'}\n"
+
+        # NEW
+        f"- Health Concerns: {health_concerns or 'none'}\n\n"
+        "MEDICAL SAFETY RULES:\n"
+        "1. If 'Diabetes' is mentioned, prioritize low-glycemic index foods and strictly limit added sugars.\n"
+        "2. If 'High Cholesterol' is mentioned, limit saturated fats and emphasize fiber and heart-healthy fats.\n"
+        "3. Always cross-reference recommendations against the user's listed Allergies.\n"
     )
 
 

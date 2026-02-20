@@ -59,11 +59,11 @@
             <option>other</option>
           </select>
         </label>
-        <label>Weight (kg)
-          <input type="number" name="weight" step="0.1" required />
+        <label>Weight (lbs)
+          <input type="number" name="weight" step="0.1" placeholder="e.g., 165" required />
         </label>
-        <label>Height (cm)
-          <input type="number" name="height" step="0.1" required />
+        <label>Height (ft)
+          <input type="number" name="height" step="0.1" placeholder="e.g., 70" required />
         </label>
         <label>Activity Level
           <select name="activity" required>
@@ -95,6 +95,10 @@
         <label>Allergies (comma-separated)
           <input type="text" name="allergies" placeholder="peanuts, dairy, ..." />
         </label>
+        <label>Health Concerns
+          <input type="text" name="health_concerns" placeholder="Diabetes, high cholesterol, etc." />
+        </label>
+        
         <div class="row span2">
           <button type="submit" class="btn primary" style="width:100%;">Save Profile</button>
         </div>
