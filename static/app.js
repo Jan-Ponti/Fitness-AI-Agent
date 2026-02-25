@@ -64,13 +64,16 @@ profileForm.addEventListener("submit", (e) => {
   const data = Object.fromEntries(new FormData(profileForm).entries());
   // Normalize a bit
   data.age = Number(data.age || 0);
-  data.weight = Number(data.weight || 0);
-  data.height = Number(data.height || 0);
+  data.weight = Number(data.weight || 0); // lbs
+  data.height = Number(data.height || 0); // in
   data.activity = data.activity || "";
   data.goal = (data.goal || "").toLowerCase();
   data.diet = (data.diet || "").toLowerCase();
   data.cuisine = (data.cuisine || "");
   data.allergies = (data.allergies || "").trim();
+  
+  // NEW: Normalize Health Concerns
+  data.health_concerns = (data.health_concerns || "").trim();
 
   profile = data;
   localStorage.setItem("fitnessProfile", JSON.stringify(profile));
