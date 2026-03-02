@@ -7,6 +7,7 @@ const profileModal = document.getElementById("profileModal");
 const closeModal = document.getElementById("closeModal");
 const editProfileBtn = document.getElementById("editProfileBtn");
 const profileForm = document.getElementById("profileForm");
+const clearDisplayBtn = document.getElementById("clearDisplayBtn");
 
 // -------- State --------
 let profile = JSON.parse(localStorage.getItem("fitnessProfile") || "null");
@@ -151,6 +152,13 @@ function greeting() {
   );
 }
 
+// -------- Clear Visual Screen --------
+if (clearDisplayBtn) {
+    clearDisplayBtn.addEventListener("click", () => {
+        chat.innerHTML = "";
+        addMessage("Display cleared. What future plans can I assist you with?", "bot");
+    });
+}
 
 
 

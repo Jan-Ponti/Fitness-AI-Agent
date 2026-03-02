@@ -20,7 +20,7 @@ if not API_KEY:
 genai.configure(api_key=API_KEY)
 
 # Choose a fast, capable model. You can switch to "gemini-1.5-pro" later.
-MODEL_NAME = "gemini-3-flash"
+MODEL_NAME = "gemini-3-flash-preview"
 model = genai.GenerativeModel(MODEL_NAME)
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
