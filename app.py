@@ -117,30 +117,55 @@ def build_prompt(history: List[Dict[str, str]], user_message: str, system_preamb
     return "\n".join(lines)
 
 def format_diet_plan(md_text):
-    # 1. Convert to HTML
+    # Convert to HTML and wrap in a root div
     html = markdown.markdown(md_text)
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(f"<div>{html}</div>", "html.parser")
+    root = soup.div
     
     formatted_output = []
 
-    # 2. Iterate through elements and add custom spacing/styling
-    for element in soup.find_all(['h1', 'h2', 'h3', 'p', 'li']):
-        text = element.get_text().strip()
+    #Iterate ONLY through top-level elements
+    for element in root.find_all(['h1', 'h2', 'h3', 'p', 'ul', 'ol'], recursive=False):
         
+        #Headers: Convert to uppercase and add underline
         if element.name in ['h1', 'h2', 'h3']:
-            # Headers: Add extra space above and use UPPERCASE
+            text = element.get_text().strip()
             formatted_output.append(f"\n\n{text.upper()}\n" + "-" * len(text))
         
+        #Paragraphs: Add a newline before
         elif element.name == 'p':
-            # Paragraphs: Normal spacing
-            formatted_output.append(f"\n{text}")
+            formatted_output.append(f"\n{element.get_text().strip()}")
             
-        elif element.name == 'li':
-            # Bullet points: Clean indent and a single bullet
-            formatted_output.append(f" • {text}")
+        #Lists: Handle nested lists for meal headers and sub-bullets
+        elif element.name in ['ul', 'ol']:
+            for li in element.find_all('li', recursive=False):
+                nested_list = li.find(['ul', 'ol'])
+                
+                #Cleans up duplicates related to nested lists
+                if nested_list:
+                    #Capture Header (* ** lines) in copy
+                    li_copy = BeautifulSoup(str(li), "html.parser").li
 
-    # Join with newlines and clean up any triple-spacing
-    return "\n".join(formatted_output).strip().replace("\n\n\n", "\n\n")
+                    #Remove the nested sub-list from the copy so only header text remains
+                    if li_copy.find(['ul', 'ol']):
+                        li_copy.find(['ul', 'ol']).decompose()
+                    
+                    header_text = li_copy.get_text().strip()
+
+                    if header_text:
+                        #Add newline before and remove bullet point
+                        formatted_output.append(f"\n{header_text}")
+                    
+                    #Capture the Sub-bullets (* lines)
+                    for sub_li in nested_list.find_all('li'):
+                        formatted_output.append(f" • {sub_li.get_text().strip()}")
+                else:
+                    #Standard bullet point
+                    formatted_output.append(f" • {li.get_text().strip()}")
+
+    #Join and final cleanup
+    result = "\n".join(formatted_output).strip().replace("\n\n\n", "\n\n")
+    return result
 
 
 def generate_pdf_bytes(text):
